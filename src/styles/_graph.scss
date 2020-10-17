@@ -1,0 +1,9 @@
+.graph{
+  display: none;
+}
+
+.day.active{
+  .graph.active{
+    display: flex;
+  }
+}

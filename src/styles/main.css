@@ -1,5 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@100;400;700&display=swap");
 body {
-  max-width: 1200px;
+  font-family: 'Barlow Condensed', sans-serif;
+  --scrollbar-width: calc(100vw - 100%);
+  background-color: #D3D3D3;
+  max-width: calc(1200px - var(--scrollbar-width));
   margin: 0 auto; }
 
 .asteroid-list {
@@ -11,34 +15,58 @@ body {
   .asteroid-list .day {
     display: flex;
     flex-flow: column; }
-    .asteroid-list .day .day-label {
-      padding: 1rem;
-      font-size: 1.2rem;
-      background-color: #8f3022;
-      color: #FFFFFF;
-      border-radius: 3px;
-      cursor: pointer;
-      user-select: none; }
-    .asteroid-list .day.active .daily-list {
+    .asteroid-list .day .day-menu {
+      display: flex;
+      flex-flow: column; }
+      .asteroid-list .day .day-menu .view-select {
+        display: none;
+        align-items: center;
+        justify-content: space-around;
+        margin-top: 0.5rem;
+        padding: 0.5rem 0;
+        box-sizing: border-box;
+        border-top: 2px solid #B1A7A6; }
+        .asteroid-list .day .day-menu .view-select > * {
+          cursor: pointer; }
+        .asteroid-list .day .day-menu .view-select img {
+          max-width: 100%;
+          height: 20px;
+          transition: all ease 100ms; }
+          .asteroid-list .day .day-menu .view-select img:hover {
+            transform: scale(1.1); }
+      .asteroid-list .day .day-menu .day-label {
+        padding: 1rem;
+        font-size: 1.2rem;
+        background-color: #B1A7A6;
+        color: #660708;
+        border-radius: 3px 3px 0 0;
+        cursor: pointer;
+        user-select: none; }
+    .asteroid-list .day.active .daily-list.active {
       display: grid; }
+    .asteroid-list .day.active .view-select {
+      display: flex; }
   .asteroid-list .daily-list {
     display: none;
     grid-template-columns: auto auto auto;
-    grid-column-gap: 1rem;
-    grid-row-gap: 1rem;
+    grid-column-gap: 0.5rem;
+    grid-row-gap: 0.5rem;
     left: 0;
-    top: 5rem;
+    top: 7rem;
+    margin-bottom: 7rem;
     width: 100%;
     position: absolute; }
     .asteroid-list .daily-list .asteroid {
       display: flex;
       flex-flow: row;
       align-items: center;
-      background-color: #0b3d91;
-      color: #FFFFFF;
+      background-color: #161A1D;
+      color: #F5F3F4;
+      font-size: 1.1rem;
       box-sizing: border-box;
       padding: 1rem;
-      width: 100%; }
+      width: 100%;
+      border-radius: 5px; }
       .asteroid-list .daily-list .asteroid > * {
         display: flex;
         align-items: center;
@@ -51,5 +79,11 @@ body {
           align-items: flex-start; }
         .asteroid-list .daily-list .asteroid > *.more-info {
           display: none; }
+
+.graph {
+  display: none; }
+
+.day.active .graph.active {
+  display: flex; }
 
 /*# sourceMappingURL=main.css.map */

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Asteroid from "./Asteroid";
 import {getDataLS, saveDataLS, storageEmpty} from "../helper/ls";
+import {transformDate} from "../helper/div";
+import Graph from "./Graph";
 
 export default class AsteroidList extends Component{
 
@@ -8,18 +10,21 @@ export default class AsteroidList extends Component{
         baseURL : 'https://api.nasa.gov/neo/rest/v1/feed?',
         startDate : '2020-10-15',
         endDate : '2020-10-22,',
-        APIKey: 'Tl8bCAKuSFVZztg6mholYejRDcQ2bVMBWoJWxKFz'
+        APIKey: 'Tl8bCAKuSFVZztg6mholYejRDcQ2bVMBWoJWxKFz',
+
     }
 
     state = {
         dataLoaded : false,
         data : null,
         activeIndex: 0,
-        graphData: [],
         graphActive: false,
+        dataCurrent : false,
+        graphData: [[]],
     }
 
     async componentDidMount() {
+
         if(storageEmpty()){
             let fetchURL =
                 this.props.baseURL +
@@ -57,13 +62,17 @@ export default class AsteroidList extends Component{
         this.setState({activeIndex : index})
     }
 
-    graphDataUpdate(id, name, distance, diameter){
+    graphDataUpdate(dayIndex, id, name, distance, diameter, timeOfImpact){
         let graphArray = this.state.graphData;
-        graphArray.push({
+        if(graphArray[dayIndex] == null){
+            graphArray.push([])
+        }
+        graphArray[dayIndex].push({
             id: id,
             name : name,
             distance: this.getDistance(distance),
-            diameter : this.getDiameter(diameter)
+            diameter : this.getDiameter(diameter),
+            timeOfImpact: timeOfImpact
         })
         this.state.graphData = graphArray
     }
@@ -83,8 +92,12 @@ export default class AsteroidList extends Component{
 
     activateGraph(e){
         e.stopPropagation()
-        console.log('dis was clikd')
         this.setState({graphActive : true})
+    }
+
+    deactivateGraph(e){
+        e.stopPropagation()
+        this.setState({graphActive: false})
     }
 
     render(){
@@ -99,30 +112,43 @@ export default class AsteroidList extends Component{
         daysArray.sort()
 
         if(dataLoaded){
-            if(this.state.graphActive){
-                return(
-                    <div> dis my graph </div>
-                )
-
-            }else{
-                return(
-                    <div className="asteroid-list">
-                        {daysArray.map((day, index) => {
-                            return(
-                                <div
-                                    className={this.isThisActive(index)?'active day' : 'day'}
-                                    id={day} key={day}
-                                    onClick={(event) => this.updateActiveIndex(event, index)}
-                                >
-                                    <div className="day-label"> {day} </div>
-                                    <div className="daily-list">
-                                        {data[day].map((asteroid) => {
-                                            this.graphDataUpdate(
-                                                asteroid.id,
-                                                asteroid.name,
-                                                asteroid.close_approach_data[0].miss_distance.kilometers,
-                                                asteroid.estimated_diameter.kilometers.estimated_diameter_max,
-                                            )
+            return(
+                <div className="asteroid-list">
+                    {daysArray.map((day, index) => {
+                        return(
+                            <div
+                                className={this.isThisActive(index)?'active day' : 'day'}
+                                id={day} key={day}
+                                onClick={(event) => this.updateActiveIndex(event, index)}
+                            >
+                                <div className="day-menu">
+                                    <div className={"day-label"}> {transformDate(day)} </div>
+                                    <div className={"view-select"}>
+                                        <div className={"show-data"} onClick={(event) => this.deactivateGraph(event)}>
+                                            <img src={require('../res/icons/list.svg')}/>
+                                        </div>
+                                        <div className={"show-graph"} onClick={(event) => this.activateGraph(event)}>
+                                            <img src={require('../res/icons/graph.svg')}/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className={this.state.graphActive? 'daily-list' : 'daily-list active'}>
+                                    {data[day]
+                                        .sort((a, b) => {
+                                            return a.close_approach_data[0].epoch_date_close_approach - b.close_approach_data[0].epoch_date_close_approach
+                                        })
+                                        .map((asteroid) => {
+                                            console.log('called')
+                                            if(!this.state.dataCurrent){
+                                                this.graphDataUpdate(
+                                                    index,
+                                                    asteroid.id,
+                                                    asteroid.name,
+                                                    asteroid.close_approach_data[0].miss_distance.kilometers,
+                                                    asteroid.estimated_diameter.kilometers.estimated_diameter_max,
+                                                    asteroid.close_approach_data[0].epoch_date_close_approach
+                                                )
+                                            }
                                             return(
                                                 <Asteroid
                                                     key={asteroid.id}
@@ -131,19 +157,21 @@ export default class AsteroidList extends Component{
                                                     missingDistance={this.numberWithCommas(this.getDistance(asteroid.close_approach_data[0].miss_distance.kilometers))}
                                                     diameter={this.getDiameter(asteroid.estimated_diameter.kilometers.estimated_diameter_max)}
                                                     URLNasa={asteroid.nasa_jpl_url}
-                                                    onClick={(event) => this.activateGraph(event)}
+                                                    timeOfImpact = {(asteroid.close_approach_data[0].epoch_date_close_approach)}
                                                 />
                                             )
                                         })}
-                                    </div>
                                 </div>
-                            )
+                                <div className={this.state.graphActive? 'graph active' : 'graph'}>
+                                    <Graph graphData={this.props.graphData[index]} index={index}/>
+                                </div>
+                            </div>
+                        )
 
-                        })}
+                    })}
 
-                    </div>
-                )
-            }
+                </div>
+            )
         }else{
             return(
                 <div>
