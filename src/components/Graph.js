@@ -14,9 +14,9 @@ export default class Graph extends Component {
 
         return(
             <div>
-                {graphData.map((point, index) =>{
+                {graphData.map((asteroid, index) =>{
                     return(
-                        <div key={"graph-" + index}> {point.id} </div>
+                        <div key={"graph-" + index}> {asteroid.timeOfImpact} </div>
                     )
                 })}
             </div>

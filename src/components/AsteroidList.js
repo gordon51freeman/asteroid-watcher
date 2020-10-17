@@ -71,7 +71,7 @@ export default class AsteroidList extends Component{
                         id: data[day][asteroid].id,
                         name : data[day][asteroid].name,
                         distance : this.getDistance(data[day][asteroid].close_approach_data[0].miss_distance.kilometers),
-                        diameter: this.getDistance(data[day][asteroid].estimated_diameter.kilometers.estimated_diameter_max,),
+                        diameter: this.getDiameter(data[day][asteroid].estimated_diameter.kilometers.estimated_diameter_max,),
                         timeOfImpact : data[day][asteroid].close_approach_data[0].epoch_date_close_approach
                     }
                 )
@@ -86,21 +86,6 @@ export default class AsteroidList extends Component{
     updateActiveIndex(e, index){
         e.stopPropagation()
         this.setState({activeIndex : index})
-    }
-
-    graphDataUpdate(dayIndex, id, name, distance, diameter, timeOfImpact){
-        let graphArray = this.state.graphData;
-        if(graphArray[dayIndex] == null){
-            graphArray.push([])
-        }
-        graphArray[dayIndex].push({
-            id: id,
-            name : name,
-            distance: this.getDistance(distance),
-            diameter : this.getDiameter(diameter),
-            timeOfImpact: timeOfImpact
-        })
-        this.state.graphData = graphArray;
     }
 
     getDiameter(diameterString){
