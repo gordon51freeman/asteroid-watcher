@@ -19,7 +19,6 @@ export default class AsteroidList extends Component{
         data : null,
         activeIndex: 0,
         graphActive: false,
-        dataCurrent : false,
         graphData: [[]],
     }
 
@@ -47,6 +46,7 @@ export default class AsteroidList extends Component{
                 dataLoaded: true
             })
         }
+        //this.arrangeRawData(getDataLS())
     }
 
     isThisActive(index){
@@ -54,6 +54,12 @@ export default class AsteroidList extends Component{
             return true
         }else{
             return false;
+        }
+    }
+
+    arrangeRawData(data){
+        for (let day in data){
+            console.log(data[day])
         }
     }
 
@@ -74,7 +80,7 @@ export default class AsteroidList extends Component{
             diameter : this.getDiameter(diameter),
             timeOfImpact: timeOfImpact
         })
-        this.state.graphData = graphArray
+        this.state.graphData = graphArray;
     }
 
     getDiameter(diameterString){
@@ -139,16 +145,15 @@ export default class AsteroidList extends Component{
                                         })
                                         .map((asteroid) => {
                                             console.log('called')
-                                            if(!this.state.dataCurrent){
-                                                this.graphDataUpdate(
-                                                    index,
-                                                    asteroid.id,
-                                                    asteroid.name,
-                                                    asteroid.close_approach_data[0].miss_distance.kilometers,
-                                                    asteroid.estimated_diameter.kilometers.estimated_diameter_max,
-                                                    asteroid.close_approach_data[0].epoch_date_close_approach
-                                                )
-                                            }
+                                            this.graphDataUpdate(
+                                                index,
+                                                asteroid.id,
+                                                asteroid.name,
+                                                asteroid.close_approach_data[0].miss_distance.kilometers,
+                                                asteroid.estimated_diameter.kilometers.estimated_diameter_max,
+                                                asteroid.close_approach_data[0].epoch_date_close_approach
+                                            )
+
                                             return(
                                                 <Asteroid
                                                     key={asteroid.id}
@@ -163,7 +168,7 @@ export default class AsteroidList extends Component{
                                         })}
                                 </div>
                                 <div className={this.state.graphActive? 'graph active' : 'graph'}>
-                                    <Graph graphData={this.props.graphData[index]} index={index}/>
+                                    <Graph graphData={this.state.graphData[index]} index={index}/>
                                 </div>
                             </div>
                         )
