@@ -19,6 +19,7 @@ export default class AsteroidList extends Component{
         data : null,
         activeIndex: 0,
         graphActive: false,
+        arrangedData : null,
         graphData: [[]],
     }
 
@@ -46,7 +47,7 @@ export default class AsteroidList extends Component{
                 dataLoaded: true
             })
         }
-        //this.arrangeRawData(getDataLS())
+        this.arrangeRawData(getDataLS())
     }
 
     isThisActive(index){
@@ -58,9 +59,28 @@ export default class AsteroidList extends Component{
     }
 
     arrangeRawData(data){
+        let arrangedData = [[]]
+        let dayIndex = -1;
         for (let day in data){
-            console.log(data[day])
+            dayIndex++;
+            for(let asteroid in data[day]){
+                if(arrangedData[dayIndex] == null){
+                    arrangedData.push([])
+                }
+                arrangedData[dayIndex].push({
+                        id: data[day][asteroid].id,
+                        name : data[day][asteroid].name,
+                        distance : this.getDistance(data[day][asteroid].close_approach_data[0].miss_distance.kilometers),
+                        diameter: this.getDistance(data[day][asteroid].estimated_diameter.kilometers.estimated_diameter_max,),
+                        timeOfImpact : data[day][asteroid].close_approach_data[0].epoch_date_close_approach
+                    }
+                )
+            }
+            arrangedData[dayIndex].sort((a, b) => {
+                return a.timeOfImpact - b.timeOfImpact
+            })
         }
+        this.setState({arrangedData : arrangedData})
     }
 
     updateActiveIndex(e, index){
@@ -139,36 +159,22 @@ export default class AsteroidList extends Component{
                                     </div>
                                 </div>
                                 <div className={this.state.graphActive? 'daily-list' : 'daily-list active'}>
-                                    {data[day]
-                                        .sort((a, b) => {
-                                            return a.close_approach_data[0].epoch_date_close_approach - b.close_approach_data[0].epoch_date_close_approach
-                                        })
-                                        .map((asteroid) => {
-                                            console.log('called')
-                                            this.graphDataUpdate(
-                                                index,
-                                                asteroid.id,
-                                                asteroid.name,
-                                                asteroid.close_approach_data[0].miss_distance.kilometers,
-                                                asteroid.estimated_diameter.kilometers.estimated_diameter_max,
-                                                asteroid.close_approach_data[0].epoch_date_close_approach
-                                            )
-
+                                    {this.state.arrangedData[index].map((asteroid) => {
                                             return(
                                                 <Asteroid
                                                     key={asteroid.id}
                                                     id={asteroid.id}
                                                     name={asteroid.name}
-                                                    missingDistance={this.numberWithCommas(this.getDistance(asteroid.close_approach_data[0].miss_distance.kilometers))}
-                                                    diameter={this.getDiameter(asteroid.estimated_diameter.kilometers.estimated_diameter_max)}
-                                                    URLNasa={asteroid.nasa_jpl_url}
-                                                    timeOfImpact = {(asteroid.close_approach_data[0].epoch_date_close_approach)}
+                                                    missingDistance={asteroid.distance}
+                                                    diameter={asteroid.diameter}
+                                                    URLNasa={''}
+                                                    timeOfImpact = {asteroid.timeOfImpact}
                                                 />
                                             )
                                         })}
                                 </div>
                                 <div className={this.state.graphActive? 'graph active' : 'graph'}>
-                                    <Graph graphData={this.state.graphData[index]} index={index}/>
+                                    <Graph graphData={this.state.arrangedData[index]} index={index}/>
                                 </div>
                             </div>
                         )

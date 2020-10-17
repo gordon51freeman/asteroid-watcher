@@ -14,7 +14,6 @@ export default class Graph extends Component {
 
         return(
             <div>
-                <p> dis my graph</p>
                 {graphData.map((point, index) =>{
                     return(
                         <div key={"graph-" + index}> {point.id} </div>
