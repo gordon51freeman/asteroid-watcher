@@ -12,6 +12,20 @@ function transformTime(dateConstructor){
         pad(date.getUTCSeconds()))
 }
 
+function getDateForAPIRequest(){
+    let date = new Date();
+    let month = date.getMonth() + 1;
+    if(month > 12){
+        month = 1;
+    }
+    return(
+        date.getFullYear() + '-' +
+        pad(month) + '-' +
+        pad(date.getDate())
+    )
+
+}
+
 function pad(digit){
     digit = digit+'';
     if (digit.length === 1) {
@@ -22,5 +36,6 @@ function pad(digit){
 
 export {
     transformDate,
-    transformTime
+    transformTime,
+    getDateForAPIRequest
 }

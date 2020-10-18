@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Asteroid from "./Asteroid";
-import {getDataLS, saveDataLS, storageEmpty} from "../helper/ls";
+import {getDataLS, saveDataLS, storageEmpty, isDataOld} from "../helper/ls";
 import {transformDate} from "../helper/div";
 import Graph from "./Graph";
 
@@ -9,7 +9,7 @@ export default class AsteroidList extends Component{
     static defaultProps = {
         baseURL : 'https://api.nasa.gov/neo/rest/v1/feed?',
         startDate : '2020-10-15',
-        endDate : '2020-10-22,',
+        endDate : '',
         APIKey: 'Tl8bCAKuSFVZztg6mholYejRDcQ2bVMBWoJWxKFz',
 
     }
@@ -25,12 +25,16 @@ export default class AsteroidList extends Component{
 
     async componentDidMount() {
 
-        if(storageEmpty()){
+        console.log(isDataOld())
+
+        if(storageEmpty() || isDataOld()){
             let fetchURL =
                 this.props.baseURL +
                 'start_date=' + this.props.startDate +
                 '&end_date=' + this.props.endDate +
                 '&api_key=' + this.props.APIKey
+
+            console.log(fetchURL)
 
             const response = await fetch(fetchURL)
             const receivedData = await response.json()
@@ -39,23 +43,13 @@ export default class AsteroidList extends Component{
 
             this.setState({
                 data: getDataLS(),
-                dataLoaded: true
             })
         }else{
-            this.setState({
-                data: getDataLS(),
-                dataLoaded: true
+            this.setState({data: getDataLS()
             })
         }
         this.arrangeRawData(getDataLS())
-    }
-
-    isThisActive(index){
-        if(index == this.state.activeIndex){
-            return true
-        }else{
-            return false;
-        }
+        this.setState({dataLoaded : true})
     }
 
     arrangeRawData(data){
@@ -72,7 +66,8 @@ export default class AsteroidList extends Component{
                         name : data[day][asteroid].name,
                         distance : this.getDistance(data[day][asteroid].close_approach_data[0].miss_distance.kilometers),
                         diameter: this.getDiameter(data[day][asteroid].estimated_diameter.kilometers.estimated_diameter_max,),
-                        timeOfImpact : data[day][asteroid].close_approach_data[0].epoch_date_close_approach
+                        timeOfImpact : data[day][asteroid].close_approach_data[0].epoch_date_close_approach,
+                        nasaUrl: data[day][asteroid].nasa_jpl_url
                     }
                 )
             }
@@ -81,6 +76,14 @@ export default class AsteroidList extends Component{
             })
         }
         this.setState({arrangedData : arrangedData})
+    }
+
+    isThisActive(index){
+        if(index == this.state.activeIndex){
+            return true
+        }else{
+            return false;
+        }
     }
 
     updateActiveIndex(e, index){
@@ -94,11 +97,6 @@ export default class AsteroidList extends Component{
 
     getDistance(distanceString){
         return parseFloat(distanceString).toFixed(0)
-    }
-
-    //i nicked this function from stackoverflow
-    numberWithCommas(x) {
-        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "'");
     }
 
     activateGraph(e){
@@ -152,7 +150,7 @@ export default class AsteroidList extends Component{
                                                     name={asteroid.name}
                                                     missingDistance={asteroid.distance}
                                                     diameter={asteroid.diameter}
-                                                    URLNasa={''}
+                                                    URLNasa={asteroid.nasaUrl}
                                                     timeOfImpact = {asteroid.timeOfImpact}
                                                 />
                                             )
@@ -163,9 +161,7 @@ export default class AsteroidList extends Component{
                                 </div>
                             </div>
                         )
-
                     })}
-
                 </div>
             )
         }else{

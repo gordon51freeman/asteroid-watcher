@@ -1,3 +1,5 @@
+import {getDateForAPIRequest} from "./div";
+
 const DATA_KEY = 'COMP'
 
 function saveDataLS(data){
@@ -15,8 +17,23 @@ function storageEmpty(){
     }
 }
 
+function isDataOld(){
+    let data = getDataLS()
+    let days = []
+    let ret_val = true;
+    for(let day in data){
+        days.push(day);
+    }
+    days.sort()
+    if(days[0] === getDateForAPIRequest()){
+        ret_val = false;
+    }
+    return ret_val;
+}
+
 export {
     saveDataLS,
     getDataLS,
     storageEmpty,
+    isDataOld
 }

@@ -2,7 +2,7 @@
 body {
   font-family: 'Barlow Condensed', sans-serif;
   --scrollbar-width: calc(100vw - 100%);
-  background-color: #D3D3D3;
+  background-color: #474242;
   max-width: calc(1200px - var(--scrollbar-width));
   margin: 0 auto; }
 
@@ -25,7 +25,7 @@ body {
         margin-top: 0.5rem;
         padding: 0.5rem 0;
         box-sizing: border-box;
-        border-top: 2px solid #B1A7A6; }
+        border-top: 2px solid #F5F3F4; }
         .asteroid-list .day .day-menu .view-select > * {
           cursor: pointer; }
         .asteroid-list .day .day-menu .view-select img {
@@ -37,15 +37,20 @@ body {
       .asteroid-list .day .day-menu .day-label {
         padding: 1rem;
         font-size: 1.2rem;
-        background-color: #B1A7A6;
-        color: #660708;
-        border-radius: 3px 3px 0 0;
+        background-color: #161A1D;
+        color: #F5F3F4;
+        border-radius: 5px 5px 0 0;
         cursor: pointer;
-        user-select: none; }
+        user-select: none;
+        transition: all ease 200ms; }
+        .asteroid-list .day .day-menu .day-label:hover {
+          background-color: #0B090A; }
     .asteroid-list .day.active .daily-list.active {
       display: grid; }
     .asteroid-list .day.active .view-select {
       display: flex; }
+    .asteroid-list .day.active .day-label {
+      background-color: #0B090A; }
   .asteroid-list .daily-list {
     display: none;
     grid-template-columns: auto auto auto;
@@ -57,16 +62,19 @@ body {
     width: 100%;
     position: absolute; }
     .asteroid-list .daily-list .asteroid {
+      transition: all ease-in 100ms;
       display: flex;
       flex-flow: row;
       align-items: center;
-      background-color: #161A1D;
+      background-color: #904546;
       color: #F5F3F4;
       font-size: 1.1rem;
       box-sizing: border-box;
       padding: 1rem;
       width: 100%;
-      border-radius: 5px; }
+      border-radius: 5px;
+      cursor: pointer;
+      text-decoration: none; }
       .asteroid-list .daily-list .asteroid > * {
         display: flex;
         align-items: center;
@@ -79,6 +87,9 @@ body {
           align-items: flex-start; }
         .asteroid-list .daily-list .asteroid > *.more-info {
           display: none; }
+      .asteroid-list .daily-list .asteroid:hover {
+        background-color: #660708;
+        color: #FFFFFF; }
 
 .graph {
   display: none; }

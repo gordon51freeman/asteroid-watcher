@@ -13,14 +13,19 @@ export default class Asteroid extends Component {
         URLNasa: '',
     }
 
+    //i nicked this function from stackoverflow
+    numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "'");
+    }
+
     render(){
         return(
-            <div className={"asteroid"} key={this.props.id}>
+            <a href={this.props.URLNasa} target={"_blank"} rel={"noopener noreferrer"} className={"asteroid"} key={this.props.id}>
                 <div className={"asteroid-data"}>
                     <div> Name: {this.props.name}</div>
                     <div> ID: {this.props.id}</div>
                     <div>
-                        Missing Earth by: {this.props.missingDistance}km
+                        Missing Earth by: {this.numberWithCommas(this.props.missingDistance)}km
                     </div>
                     <div>
                         Est. diameter: {this.props.diameter}km
@@ -29,11 +34,8 @@ export default class Asteroid extends Component {
                         Time of impact: {transformTime(this.props.timeOfImpact)} UTC
                     </div>
                 </div>
-                <div className={"more-info"}>
-                    <a href={this.props.URLNasa} target="_blank" rel="noopener noreferrer"> Find out more about this asteroid </a>
-                </div>
 
-            </div>
+            </a>
         )
     }
 }
