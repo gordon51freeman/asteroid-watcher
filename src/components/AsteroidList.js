@@ -25,16 +25,12 @@ export default class AsteroidList extends Component{
 
     async componentDidMount() {
 
-        console.log(isDataOld())
-
         if(storageEmpty() || isDataOld()){
             let fetchURL =
                 this.props.baseURL +
                 'start_date=' + this.props.startDate +
                 '&end_date=' + this.props.endDate +
                 '&api_key=' + this.props.APIKey
-
-            console.log(fetchURL)
 
             const response = await fetch(fetchURL)
             const receivedData = await response.json()
