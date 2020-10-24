@@ -28,7 +28,7 @@ export default class Asteroid extends Component {
                         Missing Earth by: {this.numberWithCommas(this.props.missingDistance)}km
                     </div>
                     <div>
-                        Est. diameter: {this.props.diameter}km
+                        Est. diameter: {this.props.diameter}m
                     </div>
                     <div>
                         Time of impact: {transformTime(this.props.timeOfImpact)} UTC

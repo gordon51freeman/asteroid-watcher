@@ -88,11 +88,15 @@ export default class AsteroidList extends Component{
     }
 
     getDiameter(diameterString){
-        return parseFloat(diameterString).toFixed(3)
+        let diameterInMeter = parseFloat(diameterString)*1000
+        diameterInMeter = diameterInMeter.toFixed(0)
+        //return parseFloat(diameterString).toFixed(3)
+        return parseInt(diameterInMeter, 10)
     }
 
     getDistance(distanceString){
-        return parseFloat(distanceString).toFixed(0)
+        //return parseFloat(distanceString).toFixed(0)
+        return parseInt(distanceString, 10)
     }
 
     activateGraph(e){
@@ -115,6 +119,7 @@ export default class AsteroidList extends Component{
         }
 
         daysArray.sort()
+        console.log(this.state.arrangedData)
 
         if(dataLoaded){
             return(

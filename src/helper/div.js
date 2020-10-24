@@ -8,8 +8,7 @@ function transformTime(dateConstructor){
     let date = new Date(dateConstructor)
     return (
         pad(date.getUTCHours()) + ':' +
-        pad(date.getUTCMinutes()) + ':' +
-        pad(date.getUTCSeconds()))
+        pad(date.getUTCMinutes()))
 }
 
 function getDateForAPIRequest(){
