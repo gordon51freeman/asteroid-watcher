@@ -2,3 +2,20 @@
 @import 'graph';
 @import 'colors';
 @import 'details';
+
+.header{
+  margin: 0 auto;
+  padding: 1rem;
+  color: $cultured;
+  p{
+    font-size: 1.3rem;
+    margin: 0;
+    a{
+      font-weight: bold;
+      color: $rubyRed;
+    }
+  }
+  h1{
+    margin: 0;
+  }
+}

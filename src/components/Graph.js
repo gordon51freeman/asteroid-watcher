@@ -91,12 +91,12 @@ export default class Graph extends Component {
 
     scatter() {
         const data = this.props.graphData,
-            w = 1100,
-            h = 600,
+            w = 1160,
+            h = 500,
             margin = {
                 top: 40,
-                bottom: 40,
-                left: 100,
+                bottom: 60,
+                left: 150,
                 right: 20
             };
         const width = w - margin.right - margin.left,
@@ -122,11 +122,37 @@ export default class Graph extends Component {
         ));
         return(
             <div className={'d3-graph'}>
+                <div className={"general-info"}>
+                    <p> Click on an asteroid to show details</p>
+                    <p className={"small-print"}> The radius of the data points represents the diameter of the asteroid, although it is not directly proportional
+                        to the asteroids actual size.
+                    </p>
+                    <p className={"small-print"}> The Y-Axis is deliberately cut off at 80 Million km to prevent the graph from
+                        scaling based on extreme outliers.
+                    </p>
+                </div>
                 <svg width={w} height={h}>
                     <g transform={`translate(${margin.left},${margin.top})`}>
                         {circles}
                         {this.axisLeft({yScale, width})}
                         {this.axisBottom({xScale, height})}
+                        <text
+                            className={"label-x"}
+                            x="350"
+                            y="450"
+                            style={{ fontSize: 18, fill:"#FFFFFF" }}
+                        >
+                            UTC Time of Asteroids closest approximation to earth
+                        </text>
+                        <text
+                            className={"label-y"}
+                            writingMode={"tb"}
+                            x={"130"}
+                            y={"-320"}
+                            style={{ fontSize: 18, fill:"#FFFFFF" }}
+                        >
+                            Distance to earth at time of closest approximation
+                        </text>
                     </g>
                 </svg>
             </div>

@@ -18,7 +18,7 @@ export default class Asteroid extends Component {
 
     render(){
         return(
-            <a href={this.props.URLNasa} target={"_blank"} rel={"noopener noreferrer"} className={"asteroid"} key={this.props.id}>
+            <div className={"asteroid"} key={this.props.id}>
                 <div className={"asteroid-data"}>
                     <div> Name: {this.props.name}</div>
                     <div> ID: {this.props.id}</div>
@@ -29,11 +29,11 @@ export default class Asteroid extends Component {
                         Est. diameter: {this.props.diameter}m
                     </div>
                     <div>
-                        Time of impact: {transformTime(this.props.timeOfImpact)} UTC
+                        Closest to earth by: {transformTime(this.props.timeOfImpact)} UTC
                     </div>
                 </div>
 
-            </a>
+            </div>
         )
     }
 }

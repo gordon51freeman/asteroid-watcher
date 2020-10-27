@@ -141,7 +141,7 @@ export default class AsteroidList extends Component{
                                         </div>
                                     </div>
                                 </div>
-                                <div className={this.state.graphActive? 'daily-list' : 'daily-list'}>
+                                <div className={this.state.graphActive? 'daily-list' : 'active daily-list'}>
                                     {this.state.arrangedData[index].map((asteroid) => {
                                             return(
                                                 <Asteroid
@@ -156,7 +156,7 @@ export default class AsteroidList extends Component{
                                             )
                                         })}
                                 </div>
-                                <div className={this.state.graphActive? 'graph active' : 'graph active'}>
+                                <div className={this.state.graphActive? 'graph active' : 'graph'}>
                                     <Graph graphData={this.state.arrangedData[index]} index={index}/>
                                 </div>
                             </div>
