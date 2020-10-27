@@ -98,6 +98,42 @@ body {
   left: 0; }
 
 .day.active .graph.active {
-  display: flex; }
+  display: flex;
+  max-width: 100%; }
+  .day.active .graph.active .d3-graph {
+    position: relative;
+    background-color: #0B090A;
+    padding: 50px;
+    border-radius: 20px;
+    max-width: 100%;
+    box-shadow: 0px 0px 20px 4px rgba(255, 255, 255, 0.22); }
+    .day.active .graph.active .d3-graph g.y-tick line, .day.active .graph.active .d3-graph g.x-tick line {
+      stroke: rgba(255, 255, 255, 0.4); }
+    .day.active .graph.active .d3-graph g.y-tick.first line, .day.active .graph.active .d3-graph g.x-tick.first line {
+      stroke: #ffffff;
+      stroke-width: 2px; }
+    .day.active .graph.active .d3-graph g.y-tick.first text, .day.active .graph.active .d3-graph g.x-tick.first text {
+      display: none; }
+    .day.active .graph.active .d3-graph circle {
+      fill: #660708;
+      cursor: pointer; }
+      .day.active .graph.active .d3-graph circle:hover {
+        fill: #A4161A; }
+
+.details-window {
+  position: absolute;
+  top: 0;
+  right: 0;
+  box-sizing: border-box;
+  padding: 0.5rem;
+  border-radius: 0 20px 0 0;
+  background-color: #FFFFFF;
+  display: flex;
+  flex-flow: column;
+  color: black; }
+  .details-window > :first-child {
+    font-weight: bold; }
+  .details-window > * {
+    font-size: 1.2rem; }
 
 /*# sourceMappingURL=main.css.map */

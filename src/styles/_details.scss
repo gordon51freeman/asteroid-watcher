@@ -1,0 +1,18 @@
+.details-window{
+  position: absolute;
+  top: 0;
+  right: 0;
+  box-sizing: border-box;
+  padding: 0.5rem;
+  border-radius: 0 20px 0 0;
+  background-color: #FFFFFF;
+  display: flex;
+  flex-flow: column;
+  color: black;
+  & > :first-child{
+    font-weight: bold;
+  }
+  & > *{
+    font-size: 1.2rem;
+  }
+}

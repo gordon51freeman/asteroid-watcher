@@ -22,7 +22,6 @@ function getDateForAPIRequest(){
         pad(month) + '-' +
         pad(date.getDate())
     )
-
 }
 
 function pad(digit){
@@ -32,9 +31,15 @@ function pad(digit){
     }
     return digit;
 }
+//i nicked this function from stackoverflow
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "'");
+}
 
 export {
+    pad,
     transformDate,
     transformTime,
-    getDateForAPIRequest
+    getDateForAPIRequest,
+    numberWithCommas
 }

@@ -119,7 +119,6 @@ export default class AsteroidList extends Component{
         }
 
         daysArray.sort()
-        console.log(this.state.arrangedData)
 
         if(dataLoaded){
             return(
@@ -142,7 +141,7 @@ export default class AsteroidList extends Component{
                                         </div>
                                     </div>
                                 </div>
-                                <div className={this.state.graphActive? 'daily-list' : 'daily-list active'}>
+                                <div className={this.state.graphActive? 'daily-list' : 'daily-list'}>
                                     {this.state.arrangedData[index].map((asteroid) => {
                                             return(
                                                 <Asteroid
@@ -157,7 +156,7 @@ export default class AsteroidList extends Component{
                                             )
                                         })}
                                 </div>
-                                <div className={this.state.graphActive? 'graph active' : 'graph'}>
+                                <div className={this.state.graphActive? 'graph active' : 'graph active'}>
                                     <Graph graphData={this.state.arrangedData[index]} index={index}/>
                                 </div>
                             </div>

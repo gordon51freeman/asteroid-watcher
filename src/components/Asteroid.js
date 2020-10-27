@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {transformTime} from "../helper/div";
+import {numberWithCommas} from "../helper/div";
 
 export default class Asteroid extends Component {
 
@@ -13,10 +14,7 @@ export default class Asteroid extends Component {
         URLNasa: '',
     }
 
-    //i nicked this function from stackoverflow
-    numberWithCommas(x) {
-        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "'");
-    }
+
 
     render(){
         return(
@@ -25,7 +23,7 @@ export default class Asteroid extends Component {
                     <div> Name: {this.props.name}</div>
                     <div> ID: {this.props.id}</div>
                     <div>
-                        Missing Earth by: {this.numberWithCommas(this.props.missingDistance)}km
+                        Missing Earth by: {numberWithCommas(this.props.missingDistance)}km
                     </div>
                     <div>
                         Est. diameter: {this.props.diameter}m
